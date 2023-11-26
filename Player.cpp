@@ -1,5 +1,8 @@
 #include "Player.h"
 #include "objPos.h"
+#include "GameMechs.h"
+
+
 
 
 Player::Player(GameMechs* thisGMRef)
@@ -24,9 +27,11 @@ void Player::getPlayerPos(objPos &returnPos)
 void Player::updatePlayerDir()
 {
     // PPA3 input processing logic 
-    if (mainGameMechsRef->GetInput()) //does saying this makes sense? im trying to say that there is input presence
+
+    if (mainGameMechsRef->getInput()) //does saying this makes sense? im trying to say that there is input presence
     {
-        switch(mainGameMechsRef->GetInput())
+        switch(mainGameMechsRef->getInput())
+
         {                      
             case '^':  // exit
                 mainGameMechsRef->setExitTrue();
@@ -38,7 +43,7 @@ void Player::updatePlayerDir()
                 }
                 break;
             case 's':
-                if (mydir!=UP)
+                if (myDir!=UP)
                 {
                     myDir = DOWN;
                 }
@@ -64,7 +69,10 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
-    int moveCount++;
+
+    int moveCount;
+    moveCount++;
+
 
     //Update player location by one unit
     if (myDir==UP)
@@ -91,19 +99,30 @@ void Player::movePlayer()
     //Border wraparound 
     if (playerPos.x<0)
     {
-        playerPos.x = mainGameMechsRef->getBoardSizeX-1;
+        playerPos.x = mainGameMechsRef->getBoardSizeX()-1;
     }
-    else if (playerPos.x >= mainGameMechsRef->getBoardSizeX)
+    else if (playerPos.x >= mainGameMechsRef->getBoardSizeX())
+    {
+        playerPos.x = mainGameMechsRef->getBoardSizeX()-1;
+    }
+    else if (playerPos.x >= mainGameMechsRef->getBoardSizeX())
+
     {
         playerPos.x = 0;
     }
     else if (playerPos.y<0)
     {
-        playerPos.y = mainGameMechsRef->getBoardSizeY-1;
+
+        playerPos.y = mainGameMechsRef->getBoardSizeY()-1;
     }
-    else if (playerPos.y>=mainGameMechsRef->getBoardSizeY)
+    else if (playerPos.y>=mainGameMechsRef->getBoardSizeY())
+    {
+
+        playerPos.y = mainGameMechsRef->getBoardSizeY()-1;
+    }
+    else if (playerPos.y>=mainGameMechsRef->getBoardSizeY())
+
     {
         playerPos.y = 0;
     }
 }
-
