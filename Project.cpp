@@ -67,10 +67,10 @@ void DrawScreen(void)
     MacUILib_clearScreen();
     objPos tempPos;
     myPlayer->getPlayerPos(tempPos); //get player position
-    
-    for(int j = 0, j < 15, j++)
+
+    for(int j = 0; j < 15; j++)
     {
-        for(int i = 0, i < 30, i++)
+        for(int i = 0; i < 30; i++)
         {
             if (i == 0 || i == 29 || j == 0 || j == 14)
             {
@@ -88,7 +88,7 @@ void DrawScreen(void)
         MacUILib_printf("\n");
     }  
 
-    MacUILib_printf("Board size: %d%d, Player position: <%d, %d> +%c\n", myGM->getBoardSizeX(), myGM->getBoardSizeY(), tempPos.x, tempPos.y, tempPos.symbol);   
+    MacUILib_printf("Board size: %d%d, Player position: <%d, %d> +%c\n", myGM->getBoardSizeX(), myGM->getBoardSizeY(), tempPos.x, tempPos.y, tempPos.symbol);    
 
 }
 
