@@ -63,6 +63,7 @@ char GameMechs::getInput()
     { 
         input = MacUILib_getChar();
     }
+    return input;
 }
 
 
