@@ -2,14 +2,11 @@
 #include "objPos.h"
 #include "GameMechs.h"
 
-
-
-
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
-    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX(), mainGameMechsRef->getBoardSizeY(), '*');
+    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*');
 }
 
 
@@ -103,7 +100,7 @@ void Player::movePlayer()
     }
     else if (playerPos.x >= mainGameMechsRef->getBoardSizeX())
     {
-        playerPos.x = mainGameMechsRef->getBoardSizeX()-1;
+        playerPos.x = 0;
     }
     else if (playerPos.x >= mainGameMechsRef->getBoardSizeX())
 
@@ -111,11 +108,6 @@ void Player::movePlayer()
         playerPos.x = 0;
     }
     else if (playerPos.y<0)
-    {
-
-        playerPos.y = mainGameMechsRef->getBoardSizeY()-1;
-    }
-    else if (playerPos.y>=mainGameMechsRef->getBoardSizeY())
     {
 
         playerPos.y = mainGameMechsRef->getBoardSizeY()-1;
