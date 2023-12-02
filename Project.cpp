@@ -54,8 +54,8 @@ void Initialize(void)
     myPlayer = new Player(myGM);
     myFood = new Food();
 
-    
-    objPos tempPos(-1, -1, 'o'); 
+    //makeshift setup so i dont have to generate item yet need to do it yourself
+    objPos tempPos(-1, -1, 'o');
     myFood->generateFood(tempPos); 
     
     
@@ -99,29 +99,47 @@ void DrawScreen()
 {
    
     MacUILib_clearScreen();
-    objPos tempPos;
-    myPlayer->getPlayerPos(tempPos); //get player position
+
+    bool drawn;
+    
+    objPosArrayList* playerBody = myPlayer->getPlayerPos();
+    objPos tempBody;
+
+
     objPos foodPos;
     myFood->getFoodPos(foodPos);
     
 
     for(int i = 0; i < myGM->getBoardSizeY(); i++)
     {
-        for(int j= 0; j < myGM->getBoardSizeX(); j++)
+        for(int j = 0; j < myGM->getBoardSizeX(); j++)
         {
+            drawn = false;
+
+            for (int k = 0; k < playerBody->getSize(); k++)
+            {
+                playerBody->getElement(tempBody, k);
+                if (tempBody.x == j && tempBody.y == i)
+                {
+                    MacUILib_printf("%c", tempBody.symbol);
+                    drawn = true;
+                    break;
+                }
+            }
+
+            if (drawn) continue; //if player body was drawn don't draw anything below
+
             if (i == 0 || i == myGM->getBoardSizeY()-1 || j == 0 || j == myGM->getBoardSizeX()-1)
             {
                 MacUILib_printf("%c",'#');
             }
-            else if (j == tempPos.x && i == tempPos.y)
-            {
-                MacUILib_printf("%c", tempPos.symbol);
-            }
-            else if (j==foodPos.x && i==foodPos.y)
+    
+            else if (j == foodPos.x && i == foodPos.y)
             {
                 MacUILib_printf("%c", foodPos.symbol);
 
             }
+
             else
             {
                 MacUILib_printf("%c",' ');
@@ -130,7 +148,8 @@ void DrawScreen()
         MacUILib_printf("\n");
     }  
 
-    MacUILib_printf("Score: %d, Player Pos: <%d,%d>\n", myGM->getScore(), tempPos.x, tempPos.y);   
+    MacUILib_printf("Score: %d\n", myGM->getScore());   
+    MacUILib_printf("Food Position: <%d, %d>", foodPos.x, foodPos.y);   
 
 
 
