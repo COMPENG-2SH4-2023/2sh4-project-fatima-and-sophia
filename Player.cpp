@@ -2,13 +2,22 @@
 #include "objPos.h"
 #include "GameMechs.h"
 
+#include "Player.h"
+#include "objPos.h"
+#include "GameMechs.h"
+
+
+
+
+
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
+    objPos tempPos;
     tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*');
     playerPosList = new objPosArrayList();
-    playerPosList.insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
 }
 
 
@@ -18,7 +27,7 @@ Player::~Player()
     delete playerPosList;
 }
 
-objPosArrayList*  Player::getPlayerPos()
+objPosArrayList* Player::getPlayerPos()
 {
     // return the reference to the playerPos arrray list
     return playerPosList;
@@ -28,7 +37,7 @@ void Player::updatePlayerDir()
 {
     // PPA3 input processing logic 
 
-    if (mainGameMechsRef->getInput()) //does saying this makes sense? im trying to say that there is input presence
+    if (mainGameMechsRef->getInput() != 0) //does saying this makes sense? im trying to say that there is input presence
     {
         switch(mainGameMechsRef->getInput())
 
@@ -69,8 +78,9 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     objPos currHead;
-    playerPosList.getHeadElement(currHead)
-    
+    playerPosList->getHeadElement(currHead);
+
+    //Update player location by one unit
     switch(myDir)
     {
         case UP:
@@ -104,6 +114,7 @@ void Player::movePlayer()
                 currHead.x = 1;
             }
             break;
+        
         case STOP:
         default:
             break; 
@@ -112,6 +123,59 @@ void Player::movePlayer()
     playerPosList->insertHead(currHead);
 
     playerPosList->removeTail();
+
+    // if (foodPos.x == bodyPos.x && foodPos.y == bodyPos.y||foodPos.x == -1 && foodPos.y== -1) 
+    // {
+    //     increasePlayerLength();
+    //     myFood->generateFood(playerPos);
+    // }
+
+
+
+
+
+    // if (myDir==UP)
+    // {
+    //      playerPos.y--;
+    //      moveCount++;
+    // }
+    // else if (myDir==DOWN)
+    // {
+    //     playerPos.y++;
+    //     moveCount++;
+    // }
+    // else if (myDir==LEFT)
+    // {
+    //     playerPos.x--;
+    //     moveCount++;
+    // }
+    // else if (myDir==RIGHT)
+    // {
+    //     playerPos.x++;
+    //     moveCount++;
+    // }
+
+    // //Border wraparound 
+    // if (playerPos.x<0)
+    // {
+    //     playerPos.x = mainGameMechsRef->getBoardSizeX()-1;
+    // }
+    // else if (playerPos.x >= mainGameMechsRef->getBoardSizeX())
+    // {
+    //     playerPos.x = 0;
+    // }
+    // else if (playerPos.x >= mainGameMechsRef->getBoardSizeX())
+    // {
+    //     playerPos.x = 0;
+    // }
+    // else if (playerPos.y<0)
+    // {
+    //     playerPos.y = mainGameMechsRef->getBoardSizeY()-1;
+    // }
+    // else if (playerPos.y>=mainGameMechsRef->getBoardSizeY())
+    // {
+    //     playerPos.y = 0;
+    // }
 }
 
 void Player::increasePlayerLength()
@@ -121,4 +185,15 @@ void Player::increasePlayerLength()
     objPos addNew;
     addNew.setObjPos(currTail.x - 1, currTail.y - 1, '*');
     playerPosList->insertHead(addNew);
+}
+
+bool Player::checkFoodConsumption()
+{
+
+    objPos headPos;
+    objPos foodPos;
+
+    playerPosList->getHeadElement(headPos);
+    getFoodPos(foodPos);
+    return foodPos.isPosEqual(&headPos);
 }
