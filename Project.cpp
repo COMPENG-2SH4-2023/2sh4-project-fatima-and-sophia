@@ -53,6 +53,11 @@ void Initialize(void)
     myGM = new GameMechs(30, 15);
     myPlayer = new Player(myGM);
     myFood = new Food();
+
+    
+    objPos tempPos(-1, -1, 'o'); 
+    myFood->generateFood(tempPos); 
+    
     
 
     
@@ -71,14 +76,19 @@ void RunLogic(void)
 
     myGM->clearInput();
 
+    objPosArrayList* playerBody = myPlayer->getPlayerPos();
+    objPos bodyPos;
+    playerBody->getHeadElement(bodyPos);
+
     objPos playerPos;
-    myPlayer->getPlayerPos(playerPos);
+    myPlayer->getPlayerPos();
 
     objPos foodPos;
     myFood->getFoodPos(foodPos);
 
-    if(foodPos.x ==playerPos.x && foodPos.y == playerPos.y||foodPos.x==-1&&foodPos.y==-1)
+    if (foodPos.x == bodyPos.x && foodPos.y == bodyPos.y||foodPos.x == -1 && foodPos.y== -1) 
     {
+        myPlayer->increasePlayerLength();
         myFood->generateFood(playerPos);
     }
    
