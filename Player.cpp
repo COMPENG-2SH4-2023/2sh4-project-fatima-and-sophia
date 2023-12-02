@@ -114,3 +114,12 @@ void Player::movePlayer()
 
     playerPosList->removeTail();
 }
+
+void Player::increasePlayerLength()
+{
+    objPos currTail;
+    playerPosList->getTailElement(currTail);
+    objPos addNew;
+    addNew.setObjPos(currTail.x - 1, currTail.y - 1, '*');
+    playerPosList->insertHead(addNew);
+}
