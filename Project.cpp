@@ -1,20 +1,25 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
-#include "GameMechs.h"
 #include "Player.h"
+#include "GameMechs.h"
+#include "objPosArrayList.h"
 #include "Food.h"
+#include <cstdlib>
+
 
 
 using namespace std;
 
 #define DELAY_CONST 100000
 
+bool exitFlag;
 
 
-GameMechs* myGM; //will need to delete because on heap
+GameMechs* myGM;
 Player* myPlayer;
 Food* myFood;
+objPos tempPos;
 
 
 void Initialize(void);
@@ -28,9 +33,10 @@ void CleanUp(void);
 
 int main(void)
 {
+    srand(time(0));
 
     Initialize();
-
+    
     while(myGM->getExitFlagStatus() == false)  
     {
         GetInput();
@@ -56,8 +62,7 @@ void Initialize(void)
 
     //makeshift setup so i dont have to generate item yet need to do it yourself
     objPos tempPos(-1, -1, 'o');
-    myFood->generateFood(tempPos); 
-    
+    myFood->generateFood(myPlayer->getPlayerPos());
     
 
     
@@ -71,10 +76,22 @@ void GetInput(void)
 
 void RunLogic(void)
 {
+   
     myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
 
+    // if (myPlayer->checkFoodConsumption())
+    // {
+    //     myPlayer->increasePlayerLength();
+    //     myFood->generateFood(playerPos);
+    // }
+
+    
+
     myGM->clearInput();
+
+    
+
 
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPos bodyPos;
@@ -85,11 +102,17 @@ void RunLogic(void)
 
     objPos foodPos;
     myFood->getFoodPos(foodPos);
+    if(myPlayer->checkSelfCollision())
+    {
+        myGM->setExitTrue();
+        return;
+    }
 
     if (foodPos.x == bodyPos.x && foodPos.y == bodyPos.y||foodPos.x == -1 && foodPos.y== -1) 
     {
         myPlayer->increasePlayerLength();
-        myFood->generateFood(playerPos);
+        myFood->generateFood(myPlayer->getPlayerPos());
+        myGM->incrementScore();
     }
    
 
@@ -101,6 +124,7 @@ void DrawScreen()
     MacUILib_clearScreen();
 
     bool drawn;
+    bool drawn2;
     
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPos tempBody;
@@ -129,7 +153,7 @@ void DrawScreen()
 
             if (drawn) continue; //if player body was drawn don't draw anything below
 
-            if (i == 0 || i == myGM->getBoardSizeY()-1 || j == 0 || j == myGM->getBoardSizeX()-1)
+            if (i == 0 || i == myGM->getBoardSizeY() - 1 || j == 0 || j == myGM->getBoardSizeX() - 1)
             {
                 MacUILib_printf("%c",'#');
             }
@@ -144,12 +168,13 @@ void DrawScreen()
             {
                 MacUILib_printf("%c",' ');
             }
+
         }
         MacUILib_printf("\n");
     }  
 
     MacUILib_printf("Score: %d\n", myGM->getScore());   
-    MacUILib_printf("Food Position: <%d, %d>", foodPos.x, foodPos.y);   
+    MacUILib_printf("Food Position: <%d, %d>", foodPos.x, foodPos.y);
 
 
 
