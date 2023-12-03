@@ -1,13 +1,7 @@
 #include "Player.h"
 #include "objPos.h"
 #include "GameMechs.h"
-
-#include "Player.h"
-#include "objPos.h"
-#include "GameMechs.h"
-
-
-
+#include "objPosArrayList.h"
 
 
 Player::Player(GameMechs* thisGMRef)
@@ -124,76 +118,62 @@ void Player::movePlayer()
 
     playerPosList->removeTail();
 
+
     // if (foodPos.x == bodyPos.x && foodPos.y == bodyPos.y||foodPos.x == -1 && foodPos.y== -1) 
     // {
     //     increasePlayerLength();
     //     myFood->generateFood(playerPos);
     // }
 
-
-
-
-
-    // if (myDir==UP)
-    // {
-    //      playerPos.y--;
-    //      moveCount++;
-    // }
-    // else if (myDir==DOWN)
-    // {
-    //     playerPos.y++;
-    //     moveCount++;
-    // }
-    // else if (myDir==LEFT)
-    // {
-    //     playerPos.x--;
-    //     moveCount++;
-    // }
-    // else if (myDir==RIGHT)
-    // {
-    //     playerPos.x++;
-    //     moveCount++;
-    // }
-
-    // //Border wraparound 
-    // if (playerPos.x<0)
-    // {
-    //     playerPos.x = mainGameMechsRef->getBoardSizeX()-1;
-    // }
-    // else if (playerPos.x >= mainGameMechsRef->getBoardSizeX())
-    // {
-    //     playerPos.x = 0;
-    // }
-    // else if (playerPos.x >= mainGameMechsRef->getBoardSizeX())
-    // {
-    //     playerPos.x = 0;
-    // }
-    // else if (playerPos.y<0)
-    // {
-    //     playerPos.y = mainGameMechsRef->getBoardSizeY()-1;
-    // }
-    // else if (playerPos.y>=mainGameMechsRef->getBoardSizeY())
-    // {
-    //     playerPos.y = 0;
-    // }
 }
 
+/*bool Player::checkFoodConsumption()
+{
+    objPos headPos;
+    
+
+}*/
 void Player::increasePlayerLength()
 {
     objPos currTail;
     playerPosList->getTailElement(currTail);
     objPos addNew;
-    addNew.setObjPos(currTail.x - 1, currTail.y - 1, '*');
+    addNew.setObjPos(currTail.x, currTail.y, '*');
     playerPosList->insertHead(addNew);
+    
 }
 
-bool Player::checkFoodConsumption()
+bool Player::checkSelfCollision()
 {
-
     objPos headPos;
-    objPos foodPos;
-
     playerPosList->getHeadElement(headPos);
-    getFoodPos(foodPos);
-    return foodPos.isPosEqual(&headPos);
+
+    objPos bodyPos;
+
+
+    for (int i = 1; i < playerPosList->getSize(); i++)
+    {
+        playerPosList->getElement(bodyPos, i);
+        if (headPos.x == bodyPos.x && headPos.y == bodyPos.y)
+        {
+            return true;
+        }
+    }
+    return false;
+    
 }
+
+
+// {
+//     objPos headPos;
+//     objPos foodPos;
+
+//     playerPosList->getHeadElement(headPos);
+//     currentFood->getFoodPos(foodPos);
+
+//     if (headPos.isPosEqual(&foodPos)) 
+//     {
+//         return true;
+//     }
+//     return false;
+// }
