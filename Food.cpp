@@ -1,8 +1,9 @@
 #include "Food.h"
+
+
 //#include "MacUILib.h"
-#include "GameMechs.h"
-#include "objPos.h"
-#include "Player.h"
+
+
 //: foodPos(foodPos), playerPos(playerPos)
 Food::Food()
 {
@@ -15,17 +16,33 @@ Food::~Food()
     //destruct
 }
 
-void Food::generateFood(objPos blockOff)
+void Food::generateFood(objPosArrayList* playerPosList)
 {
+    int x=30;
+    int y=15;
+    bool occupied;
     srand(time(0));
 
     do 
     {
-        foodPos.x=rand() % 30;
-        foodPos.y=rand() % 15;
+        foodPos.x=rand() % (x-2)+1;
+        foodPos.y=rand() % (y-2)+1;
+    
+
+    occupied=false;
+    objPos tempPos;
+        for(int i=1; i<playerPosList->getSize(); i++)
+        {
+            playerPosList->getElement(tempPos, i);
+            if (foodPos.isPosEqual(&tempPos))
+            {
+                occupied=true;
+                break;
+            }
+        }
     }
-    while(foodPos.isPosEqual(&blockOff));
-    foodPos.symbol='o';
+    while(occupied);
+    
 
 
 }
@@ -38,7 +55,5 @@ void Food::generateFood(objPos blockOff)
 
 void Food::getFoodPos(objPos& returnPos)
 {
-    returnPos= foodPos;
-   
-
+    returnPos = foodPos;
 }
