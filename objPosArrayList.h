@@ -1,30 +1,25 @@
-#ifndef OBJPOS_ARRAYLIST_H
-#define OBJPOS_ARRAYLIST_H
+#ifndef OBJPOS_H
+#define OBJPOS_H
 
-#define ARRAY_MAX_CAP 256
-
-#include "objPos.h"
-
-class objPosArrayList
+class objPos
 {
-    private:
-        objPos* aList;
-        int sizeList;
-        int sizeArray;
-
     public:
-        objPosArrayList();
-        ~objPosArrayList();
+        int x;
+        int y;
+        char symbol;
 
-        int getSize();
-        void insertHead(objPos thisPos);
-        void insertTail(objPos thisPos);
-        void removeHead();
-        void removeTail();
+        objPos();
+        objPos(objPos &o); // copy constructor
+        objPos(int xPos, int yPos, char sym);
+
+        void setObjPos(objPos o);        
+        void setObjPos(int xPos, int yPos, char sym);  
+        void getObjPos(objPos &returnPos);
+        char getSymbol();
+
+        bool isPosEqual(const objPos* refPos);
         
-        void getHeadElement(objPos &returnPos);
-        void getTailElement(objPos &returnPos);
-        void getElement(objPos &returnPos, int index);
+        char getSymbolIfPosEqual(const objPos* refPos);
 };
 
 #endif
