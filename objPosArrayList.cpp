@@ -1,6 +1,5 @@
 #include "objPosArrayList.h"
 
-// Paste your CUTE Tested implementation here.
 
 objPosArrayList::objPosArrayList()
 {
