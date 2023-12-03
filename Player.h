@@ -5,6 +5,7 @@
 #include "objPos.h"
 #include "objPosArrayList.h"
 
+
 class Player
 {
     // Construct the remaining declaration from the project manual.
@@ -19,17 +20,20 @@ class Player
         Player(GameMechs* thisGMRef);
         ~Player();
 
-        objPosArrayList* getPlayerPos();  // Updated from iteration 1.
+        objPosArrayList* getPlayerPos(); // Upgrade this in iteration 3.
         void updatePlayerDir();
         void movePlayer();
         void increasePlayerLength();
+        bool checkSelfCollision();
+        //bool checkFoodConsumption(objPosArrayList* playerPosList);
 
     private:
-        objPosArrayList *playerPosList;   // Updated from iteration 1.       
+        objPosArrayList *playerPosList;   // Upgrade this in iteration 3.       
         enum Dir myDir;
 
         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
+        //Food* currentFood;
 };
 
 #endif
