@@ -2,11 +2,13 @@
 #define FOOD_H
 
 #include <cstdlib>
-#include <ctime>
 #include <iostream>
 
 
 #include "objPos.h"
+#include "objPosArrayList.h"
+//class Player;
+#include "Player.h"
 //#include "MacUILib.h"
 
 
@@ -26,8 +28,9 @@ class Food
         Food();
         ~Food();
 
-        void generateFood(objPos blockOff);
+        void generateFood(objPosArrayList* playerPosList); //upgrade somehow
         void getFoodPos(objPos &returnPos);
 };
 
 #endif
+
