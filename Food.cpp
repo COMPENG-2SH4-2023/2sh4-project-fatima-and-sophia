@@ -1,57 +1,87 @@
 #include "Food.h"
+#include "objPos.h"
+#include "objPosArrayList.h"
+#include "Player.h"
+#include "GameMechs.h"
 
 
-//#include "MacUILib.h"
-
-
-//: foodPos(foodPos), playerPos(playerPos)
 Food::Food()
 {
-
+    foodBucket=nullptr;
     foodPos.setObjPos(-1, -1, 'o');
 }
 
 Food::~Food()
 {
-    //destruct
+    delete foodBucket;
 }
 
 void Food::generateFood(objPosArrayList* playerPosList)
 {
-    int x=30;
-    int y=15;
-    bool occupied;
+    int x = 30;
+    int y = 15;
     srand(time(0));
+  
+    foodBucket = new objPosArrayList;
+    char symbol;
 
-    do 
+    for (int j = 0; j < 3; j++)
     {
-        foodPos.x=rand() % (x-2)+1;
-        foodPos.y=rand() % (y-2)+1;
-    
+        bool occupied;
+        objPos tempPos;
+        objPos generatedPos;
 
-    occupied=false;
-    objPos tempPos;
-        for(int i=1; i<playerPosList->getSize(); i++)
+        do
         {
-            playerPosList->getElement(tempPos, i);
-            if (foodPos.isPosEqual(&tempPos))
+            occupied = false;
+
+            // Generate random position for food
+            generatedPos.x = rand() % (x-2)+1;
+            generatedPos.y = rand() % (y-2)+1;
+
+            // Check if the generated position is occupied by the player
+            for (int i = 0; i < playerPosList->getSize(); i++)
             {
-                occupied=true;
-                break;
+                playerPosList->getElement(tempPos, i);
+                if (generatedPos.isPosEqual(&tempPos))
+                {
+                    occupied = true;
+                    break;
+                }
             }
+        } while (occupied);
+
+        // Generate random symbol for food
+        int actualSymbol = rand() % 3;
+        switch (actualSymbol)
+        {
+        case 0:
+            symbol = 'X';
+            break;
+        case 1:
+            symbol = '0';
+            break;
+        default:
+            symbol = 'o';
+            break;
         }
+
+
+        // Add the current food position to the foodBucket
+        foodPos=generatedPos;
+
+        objPos foodSymbolPos(generatedPos.x, generatedPos.y, symbol);
+        foodBucket->insertTail(foodSymbolPos);
+
+      
     }
-    while(occupied);
-    
-
-
 }
 
-     
-    //random 
-    //is position equal
 
-
+objPosArrayList* Food:: getFoodBucket()
+{
+    return foodBucket;
+}
 
 void Food::getFoodPos(objPos& returnPos)
 {
