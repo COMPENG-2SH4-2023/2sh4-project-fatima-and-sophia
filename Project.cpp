@@ -173,7 +173,7 @@ void DrawScreen()
     MacUILib_printf("Eat the o to increase snake body by one segment\n");
     MacUILib_printf("Eat the 0 to increase snake body by two segments\n");
     MacUILib_printf("Beware! X will shrink the snake by one segment\n");
-    MacUILib_printf("Beware! X will shrink the snake by one segment\n");
+    MacUILib_printf("To exit the program, press '^'\n");
     if (myPlayer->checkSelfCollision())
     {
         MacUILib_clearScreen();
