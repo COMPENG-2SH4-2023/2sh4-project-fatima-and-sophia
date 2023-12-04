@@ -170,14 +170,15 @@ void DrawScreen()
         myFood->getFoodBucket()->getElement(tempFood, l);
         MacUILib_printf("Food Position: <%d, %d>\n", tempFood.x, tempFood.y);
     }
+    MacUILib_printf("Eat the o to increase snake body by one segment\n");
+    MacUILib_printf("Eat the 0 to increase snake body by two segments\n");
+    MacUILib_printf("Beware! X will shrink the snake by one segment\n");
+    MacUILib_printf("Beware! X will shrink the snake by one segment\n");
     if (myPlayer->checkSelfCollision())
     {
         MacUILib_clearScreen();
         MacUILib_printf("Self-collided! Game over :(\nFinal Score: %d", myGM->getScore());
     }
-    MacUILib_printf("Eat the o to increase snake body by one segment\n");
-    MacUILib_printf("Eat the 0 to increase snake body by two segments\n");
-    MacUILib_printf("Beware! X will shrink the snake by one segment\n");
 }
 
 void LoopDelay(void)
