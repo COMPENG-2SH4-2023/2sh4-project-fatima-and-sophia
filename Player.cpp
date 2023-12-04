@@ -28,10 +28,9 @@ objPosArrayList* Player::getPlayerPos()
 }
 
 void Player::updatePlayerDir()
-{
-    // PPA3 input processing logic 
+{ 
 
-    if (mainGameMechsRef->getInput() != 0) //does saying this makes sense? im trying to say that there is input presence
+    if (mainGameMechsRef->getInput()!= 0) 
     {
         switch(mainGameMechsRef->getInput())
 
@@ -73,6 +72,8 @@ void Player::movePlayer()
 {
     objPos currHead;
     playerPosList->getHeadElement(currHead);
+    
+    
 
     //Update player location by one unit
     switch(myDir)
@@ -116,64 +117,67 @@ void Player::movePlayer()
 
     playerPosList->insertHead(currHead);
 
+
     playerPosList->removeTail();
 
 
-    // if (foodPos.x == bodyPos.x && foodPos.y == bodyPos.y||foodPos.x == -1 && foodPos.y== -1) 
-    // {
-    //     increasePlayerLength();
-    //     myFood->generateFood(playerPos);
-    // }
-
 }
 
-/*bool Player::checkFoodConsumption()
-{
-    objPos headPos;
-    
-
-}*/
-void Player::increasePlayerLength()
+void Player::increasePlayerLength(char foodType)
 {
     objPos currTail;
     playerPosList->getTailElement(currTail);
+
+
     objPos addNew;
-    addNew.setObjPos(currTail.x, currTail.y, '*');
-    playerPosList->insertHead(addNew);
-    
+    addNew.setObjPos(currTail.x,currTail.y, '*');
+
+    switch (foodType)
+    {
+        case '0':
+            playerPosList->insertTail(addNew);
+            playerPosList->insertTail(addNew);
+            mainGameMechsRef->incrementScore();
+            mainGameMechsRef->incrementScore();
+            break;
+
+        case 'o':
+            playerPosList->insertTail(addNew);
+            mainGameMechsRef->incrementScore();
+            break;
+
+        case 'X':
+            if(playerPosList->getSize() > 1)
+            {
+                playerPosList->removeTail();
+                mainGameMechsRef->decrementScore();
+            }
+            break;
+        default:
+            break;
+
+    }
+   
 }
+
 
 bool Player::checkSelfCollision()
 {
     objPos headPos;
     playerPosList->getHeadElement(headPos);
+    
 
-    objPos bodyPos;
-
-
-    for (int i = 1; i < playerPosList->getSize(); i++)
+    int i = 2;
+    while (i < playerPosList->getSize())
     {
+        objPos bodyPos;
         playerPosList->getElement(bodyPos, i);
-        if (headPos.x == bodyPos.x && headPos.y == bodyPos.y)
+        if(headPos.isPosEqual(&bodyPos))
         {
             return true;
         }
+        i++;
     }
     return false;
     
 }
-
-
-// {
-//     objPos headPos;
-//     objPos foodPos;
-
-//     playerPosList->getHeadElement(headPos);
-//     currentFood->getFoodPos(foodPos);
-
-//     if (headPos.isPosEqual(&foodPos)) 
-//     {
-//         return true;
-//     }
-//     return false;
-// }
