@@ -11,7 +11,6 @@ class objPosArrayList
         objPos* aList;
         int sizeList;
         int sizeArray;
-        int arrayCapacity;
 
     public:
         objPosArrayList();
