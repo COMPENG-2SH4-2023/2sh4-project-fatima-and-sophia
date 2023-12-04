@@ -7,10 +7,7 @@
 
 #include "objPos.h"
 #include "objPosArrayList.h"
-//class Player;
 #include "Player.h"
-//#include "MacUILib.h"
-
 
 
 using namespace std;
@@ -20,6 +17,8 @@ class Food
 {
     private:
         objPos foodPos;
+        objPosArrayList* foodBucket;
+
      
 
 
@@ -28,9 +27,10 @@ class Food
         Food();
         ~Food();
 
-        void generateFood(objPosArrayList* playerPosList); //upgrade somehow
+        void generateFood(objPosArrayList* playerPosList); 
         void getFoodPos(objPos &returnPos);
+        objPosArrayList* getFoodBucket();
+        
 };
 
 #endif
-
