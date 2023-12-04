@@ -90,5 +90,9 @@ void GameMechs::incrementScore()
     score++;
 }
 
+void GameMechs::decrementScore()
+{
+    score--;
+}
 
 
