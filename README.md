@@ -12,8 +12,8 @@ MacID: [sarfrazf]
 StudentID: [400396287]
 
 Student #2: Sophia Vetzal
-Section: []
+Section: [L01]
 
 MacID: [vetzals]
 
-StudentID: []
+StudentID: [400441914]
